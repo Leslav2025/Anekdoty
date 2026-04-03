@@ -3,38 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анекдоти: Телевізор + Донати</title>
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <title>Анекдоти Удвох</title>
+    <script src="https://unpkg.com/@tonconnect/ui@2.0.9/dist/tonconnect-ui.min.js"></script>
     <style>
-        body { background-color: #0d0d0d; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; }
-        .top-banner { width: 100%; max-width: 500px; border-radius: 15px; margin-bottom: 10px; }
-        h1 { font-size: 16px; color: #ff9900; text-align: center; margin: 10px 0; text-transform: uppercase; }
-        .tv-container { width: 100%; max-width: 600px; background: #4a2f1b; border-radius: 20px; border: 6px solid #2e1a0b; padding: 10px; box-sizing: border-box; }
-        .tv-screen { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; border: 3px solid #1a1a1a; position: relative; }
-        #player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .tv-controls { display: flex; justify-content: space-around; padding: 10px; background: #331d0e; border-radius: 10px; margin-top: 10px; }
-        .control-btn { background: #a67c52; border: 1px solid #5e412c; color: #fff; padding: 10px; border-radius: 5px; cursor: pointer; flex: 1; margin: 0 5px; }
-        .donation-section { width: 100%; max-width: 500px; margin-top: 20px; text-align: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; box-sizing: border-box; }
+        body { background: #0d0d0d; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; }
+        .top-banner { width: 100%; max-width: 400px; border-radius: 10px; margin-bottom: 10px; }
+        .tv-container { width: 100%; max-width: 500px; background: #4a2f1b; border-radius: 20px; border: 6px solid #2e1a0b; padding: 10px; box-sizing: border-box; }
+        .tv-screen { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; position: relative; }
+        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .donation-section { width: 100%; max-width: 500px; margin-top: 20px; text-align: center; }
         .donate-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
         .btn-bank { text-decoration: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; color: white; flex: 1; text-align: center; }
         .mono { background: #000; border: 1px solid #444; color: #ff3b30; }
         .privat { background: #76b82a; }
         .idea { background: #ff0000; }
-        #ton-connect-button { display: flex; justify-content: center; margin: 10px 0; }
-        .ton-btn { background: linear-gradient(45deg, #0088cc, #00aaff); color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; }
+        #ton-connect-button { display: flex; justify-content: center; margin: 15px 0; }
+        .ton-btn { background: #0088cc; color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <img src="1775239832172.png" class="top-banner">
-    <h1>Анекдоти від каналу Удвох</h1>
 
     <div class="tv-container">
-        <div class="tv-screen"><div id="player"></div></div>
-        <div class="tv-controls">
-            <button class="control-btn" onclick="seek(-10)">⏪ -10с</button>
-            <button class="control-btn" id="pp-btn" onclick="togglePlay()">⏸️</button>
-            <button class="control-btn" onclick="seek(10)">+10с ⏩</button>
+        <div class="tv-screen">
+            <iframe src="https://www.youtube.com/embed/videoseries?list=PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF&autoplay=1&mute=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
     </div>
 
@@ -46,22 +39,20 @@
         </div>
 
         <div id="ton-connect-button"></div>
-        <button class="ton-btn" id="main-ton-btn">Підтримати через TON 💎</button>
+        <button class="ton-btn" id="ton-send-btn">ПІДТРИМАТИ TON 💎</button>
     </div>
 
     <script>
+        // Ініціалізація TON Connect з повною адресою маніфесту
         const tonConnectUI = new TONConnectUI.TonConnectUI({
             manifestUrl: 'https://leslav2025.github.io/Anekdoty/tonconnect-manifest.json',
             buttonRootId: 'ton-connect-button'
         });
 
-        // ПРАВИЛЬНА ЛОГІКА КНОПКИ
-        document.getElementById('main-ton-btn').onclick = async () => {
+        document.getElementById('ton-send-btn').onclick = async () => {
             if (!tonConnectUI.connected) {
-                // Якщо не підключено — відкриваємо вибір гаманця
                 await tonConnectUI.openModal();
             } else {
-                // Якщо підключено — відправляємо 0.1 TON
                 const transaction = {
                     validUntil: Math.floor(Date.now() / 1000) + 300,
                     messages: [{
@@ -71,37 +62,9 @@
                 };
                 try {
                     await tonConnectUI.sendTransaction(transaction);
-                    alert("Дякуємо за підтримку!");
-                } catch (e) {
-                    alert("Транзакцію скасовано");
-                }
+                } catch (e) { alert("Скасовано"); }
             }
         };
-
-        // YOUTUBE
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                playerVars: { 
-                    listType: 'playlist', 
-                    list: 'PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF',
-                    autoplay: 1,
-                    controls: 0,
-                    rel: 0,
-                    origin: encodeURIComponent(window.location.origin)
-                }
-            });
-        }
-        function seek(s) { if(player) player.seekTo(player.getCurrentTime()+s); }
-        function togglePlay() {
-            if(!player) return;
-            const s = player.getPlayerState();
-            if(s==1){player.pauseVideo(); document.getElementById('pp-btn').innerText="▶️";}
-            else{player.playVideo(); document.getElementById('pp-btn').innerText="⏸️";}
-        }
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.body.appendChild(tag);
     </script>
 </body>
 </html>
