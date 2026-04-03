@@ -3,166 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Телевізор: Анекдоти від каналу Удвох</title>
+    <title>Анекдоти: Телевізор</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            background-color: #0d0d0d;
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
-        }
-
-        /* МАЛЮНОК-ЗАСТАВКА */
-        .top-banner {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 15px rgba(255,255,255,0.1);
-        }
-
-        h1 {
-            font-size: 22px;
-            margin: 15px 0 40px 0; /* Збільшений відступ знизу для антен */
-            text-align: center;
-            color: #ff9900;
-            text-transform: uppercase;
-        }
-
-        .tv-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            background: #4a2f1b;
-            border-radius: 20px;
-            border: 8px solid #2e1a0b;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 8px;
-            margin-bottom: 20px;
-        }
-
-        .tv-antenna {
-            position: absolute;
-            top: -35px;
-            width: 70px;
-            height: 40px;
-            border-top: 4px solid #555;
-            border-radius: 40px;
-        }
-        .tv-antenna.left { left: 60px; transform: rotate(-20deg); }
-        .tv-antenna.right { right: 60px; transform: rotate(20deg); }
-
-        .tv-screen {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 4px solid #1a1a1a;
-            margin-bottom: 8px;
-        }
+        body { background-color: #0d0d0d; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 10px; }
+        .top-banner { width: 100%; max-width: 500px; border-radius: 15px; margin-bottom: 10px; }
+        h1 { font-size: 20px; color: #ff9900; text-align: center; margin-bottom: 30px; }
+        .tv-container { position: relative; width: 100%; max-width: 800px; background: #4a2f1b; border-radius: 20px; border: 8px solid #2e1a0b; padding: 10px; box-shadow: 0 10px 25px #000; }
+        .tv-screen { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; border: 4px solid #1a1a1a; }
+        #player { width: 100%; height: 100%; }
+        .tv-controls { display: flex; justify-content: space-around; align-items: center; background: #331d0e; padding: 10px; border-radius: 10px; margin-top: 10px; }
+        .control-btn { background: #a67c52; border: 2px solid #5e412c; color: #fff; padding: 10px; border-radius: 5px; cursor: pointer; }
         
-        #player {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-        }
-
-        .tv-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 95%;
-            background: #331d0e;
-            padding: 12px;
-            border-radius: 10px;
-            border: 2px solid #2e1a0b;
-            margin-bottom: 5px;
-        }
-
-        .control-btn {
-            background-color: #a67c52;
-            border: 2px solid #5e412c;
-            color: #ffffff;
+        /* КНОПКА ЗІРКИ */
+        .star-button {
+            margin-top: 25px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
             font-size: 16px;
-            padding: 8px 12px;
-            border-radius: 6px;
             cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
-
-        .volume-control {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 11px;
-        }
-        
-        input[type="range"] {
-            width: 90px;
-            cursor: pointer;
-        }
-
-        .footer { color: #444; font-size: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <img src="1775239832172.png" alt="Логотип" class="top-banner">
-
-    <h1>Анекдоти від каналу Удвох</h1>
+    <h1>АНЕКДОТИ ВІД КАНАЛУ УДВОХ</h1>
 
     <div class="tv-container">
-        <div class="tv-antenna left"></div>
-        <div class="tv-antenna right"></div>
-
-        <div class="tv-screen">
-            <div id="player"></div>
-        </div>
-
+        <div class="tv-screen"><div id="player"></div></div>
         <div class="tv-controls">
-            <button class="control-btn" id="rewind-btn">⏪ -10с</button>
-            <button class="control-btn" id="play-pause-btn">⏸️</button>
-            <button class="control-btn" id="forward-btn">+10с ⏩</button>
-
-            <div class="volume-control">
-                <span>🔊 ЗВУК</span>
-                <input type="range" id="volume-range" min="0" max="100" value="50">
-            </div>
+            <button class="control-btn" id="rew">⏪ -10с</button>
+            <button class="control-btn" id="pp">⏸️</button>
+            <button class="control-btn" id="fwd">+10с ⏩</button>
         </div>
     </div>
 
-    <div class="footer">© 2026 Канал "Удвох"</div>
+    <button class="star-button" onclick="sendStar()">Підтримати канал ⭐️ 1</button>
 
     <script>
         var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                playerVars: {
-                    listType: 'playlist',
-                    list: 'PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF',
-                    autoplay: 1,
-                    controls: 0,
-                    rel: 0
-                },
+                playerVars: { listType:'playlist', list:'PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF', autoplay:1, controls:0 },
                 events: { 'onReady': onPlayerReady }
             });
         }
-
-        function onPlayerReady(event) {
-            document.getElementById('rewind-btn').onclick = () => player.seekTo(player.getCurrentTime() - 10);
-            document.getElementById('forward-btn').onclick = () => player.seekTo(player.getCurrentTime() + 10);
-            document.getElementById('play-pause-btn').onclick = function() {
-                if (player.getPlayerState() == 1) { player.pauseVideo(); this.innerText = "▶️"; }
-                else { player.playVideo(); this.innerText = "⏸️"; }
+        function onPlayerReady() {
+            document.getElementById('rew').onclick = () => player.seekTo(player.getCurrentTime() - 10);
+            document.getElementById('fwd').onclick = () => player.seekTo(player.getCurrentTime() + 10);
+            document.getElementById('pp').onclick = function() {
+                if(player.getPlayerState()==1){player.pauseVideo();this.innerText="▶️";}
+                else{player.playVideo();this.innerText="⏸️";}
             };
-            document.getElementById('volume-range').oninput = function() { player.setVolume(this.value); };
+        }
+        
+        // Функція для зірки
+        function sendStar() {
+            const webapp = window.Telegram.WebApp;
+            webapp.sendData("отправить_звезду"); // Бот отримає цей текст
+            webapp.close(); // Сайт закриється, щоб бот міг показати оплату
         }
 
         var tag = document.createElement('script');
