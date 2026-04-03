@@ -2,24 +2,29 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анекдоти Удвох</title>
-    <script src="https://unpkg.com/@tonconnect/ui@2.0.9/dist/tonconnect-ui.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Анекдоти Канал Удвох 📺</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <style>
-        body { background: #0d0d0d; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; }
-        .top-banner { width: 100%; max-width: 400px; border-radius: 10px; margin-bottom: 10px; }
-        .tv-container { width: 100%; max-width: 500px; background: #4a2f1b; border-radius: 20px; border: 6px solid #2e1a0b; padding: 10px; box-sizing: border-box; }
+        body { background-color: #0d0d0d; color: white; font-family: sans-serif; text-align: center; margin: 0; padding: 10px; }
+        .top-banner { width: 100%; max-width: 400px; border-radius: 12px; margin-bottom: 10px; }
+        
+        .tv-container { width: 100%; max-width: 500px; background: #4a2f1b; border-radius: 20px; border: 6px solid #2e1a0b; padding: 10px; box-sizing: border-box; margin: 0 auto; }
         .tv-screen { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; position: relative; }
         iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .donation-section { width: 100%; max-width: 500px; margin-top: 20px; text-align: center; }
+        
+        .donation-section { width: 100%; max-width: 500px; margin: 20px auto; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; box-sizing: border-box; }
         .donate-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
-        .btn-bank { text-decoration: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; color: white; flex: 1; text-align: center; }
-        .mono { background: #000; border: 1px solid #444; color: #ff3b30; }
+        .btn-bank { text-decoration: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 13px; color: white; flex: 1; text-align: center; }
+        .mono { background: #000; border: 1px solid #333; color: #ff3b30; }
         .privat { background: #76b82a; }
         .idea { background: #ff0000; }
-        #ton-connect-button { display: flex; justify-content: center; margin: 15px 0; }
-        .ton-btn { background: #0088cc; color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3); }
-        .footer { color: #444; font-size: 11px; margin-top: 20px; padding-bottom: 20px; }
+        
+        #ton-connect { display: flex; justify-content: center; margin: 15px 0; }
+        .ton-btn { background: #0088cc; color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; transition: 0.2s; }
+        .ton-btn:active { transform: scale(0.98); opacity: 0.9; }
+        .footer { margin-top: 20px; font-size: 11px; color: #475569; padding-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -28,7 +33,7 @@
 
     <div class="tv-container">
         <div class="tv-screen">
-            <iframe src="https://www.youtube.com/embed/videoseries?list=PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF&autoplay=1&mute=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/videoseries?list=PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF&autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
     </div>
 
@@ -39,46 +44,42 @@
             <a href="https://pay.obank.com.ua/payment?type=skrynka&uuid=4B45E725-F5D1-4BF6-9CDD-2E81C98074C7" target="_blank" class="btn-bank idea">O-Bank</a>
         </div>
 
-        <div id="ton-connect-button"></div>
-        <button class="ton-btn" id="ton-send-btn">ПІДТРИМАТИ TON 💎</button>
+        <div id="ton-connect"></div>
+        
+        <button class="ton-btn" id="send-ton-v3">ПІДТРИМАТИ TON 💎</button>
     </div>
 
     <div class="footer">© 2026 Канал "Удвох"</div>
 
     <script>
-        // Чекаємо завантаження всього сайту
-        window.addEventListener('load', () => {
-            const tonConnectUI = new TONConnectUI.TonConnectUI({
-                manifestUrl: 'https://leslav2025.github.io/Anekdoty/tonconnect-manifest.json',
-                buttonRootId: 'ton-connect-button'
-            });
+        // Ініціалізація Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Розгортаємо на весь екран
 
-            // Налаштовуємо кнопку
-            const btn = document.getElementById('ton-send-btn');
-            btn.onclick = async () => {
-                try {
-                    if (!tonConnectUI.connected) {
-                        // Примусово відкриваємо меню гаманців
-                        await tonConnectUI.openModal();
-                    } else {
-                        // Відправляємо 0.1 TON
-                        const transaction = {
-                            validUntil: Math.floor(Date.now() / 1000) + 300,
-                            messages: [{
-                                address: "UQDXq1iAqu88tVRG62_k03kAXELu_1gzRBMye-VZoFRIRtWw",
-                                amount: "100000000"
-                            }]
-                        };
-                        await tonConnectUI.sendTransaction(transaction);
-                        alert("Дякуємо!");
-                    }
-                } catch (e) {
-                    console.error("Error:", e);
-                    // Якщо модалка не відкрилася через UI, пробуємо ще раз
-                    tonConnectUI.modal.open();
-                }
-            };
+        // Ініціалізація TON Connect як у вашому робочому проекті
+        const tonConnectUI = new TONConnectUI.TonConnectUI({
+            manifestUrl: 'https://leslav2025.github.io/Anekdoty/tonconnect-manifest.json',
+            buttonRootId: 'ton-connect'
         });
+
+        document.getElementById('send-ton-v3').onclick = async () => {
+            if (!tonConnectUI.connected) {
+                await tonConnectUI.openModal();
+            } else {
+                const transaction = {
+                    validUntil: Math.floor(Date.now() / 1000) + 300,
+                    messages: [{
+                        address: "UQDXq1iAqu88tVRG62_k03kAXELu_1gzRBMye-VZoFRIRtWw",
+                        amount: "100000000" // 0.1 TON
+                    }]
+                };
+                try {
+                    await tonConnectUI.sendTransaction(transaction);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+        };
     </script>
 </body>
 </html>
