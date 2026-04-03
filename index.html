@@ -1,33 +1,235 @@
-<div class="video-container">
-  <iframe 
-    width="560" 
-    height="315" 
-    src="https://www.youtube.com/embed/videoseries?list=PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    referrerpolicy="strict-origin-when-cross-origin" 
-    allowfullscreen>
-  </iframe>
-</div>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Телевізор: Анекдоти від каналу Удвох</title>
+    <style>
+        body {
+            background-color: #0d0d0d; /* Дуже темний фон */
+            color: #ffffff;
+            font-family: 'Times New Roman', Times, serif; /* Більш класичний шрифт */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
 
-<style>
-  .video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* Співвідношення сторін 16:9 */
-    height: 0;
-    overflow: hidden;
-    max-width: 100%;
-    background: #000;
-    border-radius: 8px;
-  }
-  .video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-</style>
+        h1 {
+            font-size: 26px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #ff9900; /* Помаранчевий ретро-колір */
+            text-transform: uppercase;
+        }
 
+        /* --- КОРПУС ТЕЛЕВІЗОРА --- */
+        .tv-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            background: #4a2f1b; /* Колір дерева */
+            border-radius: 20px;
+            border: 10px solid #2e1a0b; /* Темніша рамка */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Антени */
+        .tv-antenna {
+            position: absolute;
+            top: -45px;
+            width: 80px;
+            height: 50px;
+            border-top: 5px solid #777;
+            border-radius: 50px;
+        }
+        .tv-antenna.left { left: 80px; transform: rotate(-15deg); }
+        .tv-antenna.right { right: 80px; transform: rotate(15deg); }
+
+        /* --- ЕКРАН ТЕЛЕВІЗОРА --- */
+        .tv-screen {
+            position: relative;
+            width: 100%;
+            max-width: 760px;
+            aspect-ratio: 16/9; /* Співвідношення сторін екрана */
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 5px solid #1a1a1a; /* Чорна рамка */
+            margin-bottom: 10px;
+        }
+        
+        /* Плеєр YouTube, який заповнить екран */
+        #player {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* --- ПАНЕЛЬ КЕРУВАННЯ --- */
+        .tv-controls {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            background: #331d0e;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #2e1a0b;
+        }
+
+        /* Кнопки */
+        .control-btn {
+            background-color: #a67c52; /* Світліше дерево/пластик */
+            border: 2px solid #5e412c;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-shadow: 1px 1px 2px #000;
+        }
+        .control-btn:hover { background-color: #bf9b7a; transform: scale(1.05); }
+        .control-btn:active { background-color: #8c6a46; transform: scale(0.95); }
+
+        /* --- СЛАЙДЕР ГУЧНОСТІ (РИЧАЖОК) --- */
+        .volume-control {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff;
+            font-size: 12px;
+        }
+        
+        /* Стиль повзунка */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 120px;
+            height: 10px;
+            background: #5e412c;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #a67c52;
+            border-radius: 50%;
+            border: 2px solid #2e1a0b;
+        }
+
+        .footer { color: #555; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <h1>Анекдоти від каналу Удвох</h1>
+
+    <div class="tv-container">
+        <div class="tv-antenna left"></div>
+        <div class="tv-antenna right"></div>
+
+        <div class="tv-screen">
+            <div id="player"></div>
+        </div>
+
+        <div class="tv-controls">
+            <button class="control-btn" id="rewind-btn" title="Назад 10 сек">⏪ -10с</button>
+            
+            <button class="control-btn" id="play-pause-btn" title="Пауза">⏸️</button>
+            
+            <button class="control-btn" id="forward-btn" title="Вперед 10 сек">⏩ +10с</button>
+
+            <div class="volume-control">
+                <span>🔊 ЗВУК</span>
+                <input type="range" id="volume-range" min="0" max="100" value="50">
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 Канал "Удвох" | Дивіться анекдоти в ретро-стилі
+    </div>
+
+    <script>
+        var player; // Змінна для плеєра
+
+        // 1. Ця функція викликається автоматично, коли API завантажиться
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                // height: '100%',
+                // width: '100%',
+                // ID вашого плейлиста: PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF
+                playerVars: {
+                    listType: 'playlist',
+                    list: 'PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF',
+                    autoplay: 1, // Автозапуск (може не працювати на мобільних без натискання)
+                    controls: 0, // Приховуємо стандартні кнопки YouTube
+                    rel: 0,
+                    showinfo: 0,
+                    fs: 1 // Дозволити повний екран
+                },
+                events: {
+                    'onReady': onPlayerReady
+                    // 'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // 2. Коли плеєр готовий
+        function onPlayerReady(event) {
+            // Встановити початкову гучність (50%)
+            player.setVolume(50);
+
+            // Підключити кнопки та повзунок
+            
+            // Назад 10 сек
+            document.getElementById('rewind-btn').addEventListener('click', function() {
+                var currentTime = player.getCurrentTime();
+                player.seekTo(currentTime - 10, true);
+            });
+
+            // Вперед 10 сек
+            document.getElementById('forward-btn').addEventListener('click', function() {
+                var currentTime = player.getCurrentTime();
+                player.seekTo(currentTime + 10, true);
+            });
+
+            // Пауза / Плей
+            var playPauseBtn = document.getElementById('play-pause-btn');
+            playPauseBtn.addEventListener('click', function() {
+                var state = player.getPlayerState();
+                if (state == YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                    playPauseBtn.innerHTML = "▶️"; // Змінити іконку на Плей
+                } else {
+                    player.playVideo();
+                    playPauseBtn.innerHTML = "⏸️"; // Змінити іконку на Паузу
+                }
+            });
+
+            // Гучність (повзунок)
+            document.getElementById('volume-range').addEventListener('input', function() {
+                player.setVolume(this.volume);
+            });
+        }
+
+        // 3. Підключити саме API (завантажити скрипт)
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    </script>
+
+</body>
+</html>
