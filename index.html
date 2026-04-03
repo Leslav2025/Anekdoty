@@ -8,103 +8,96 @@
     <style>
         body { background-color: #0d0d0d; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; }
         .top-banner { width: 100%; max-width: 500px; border-radius: 15px; margin-bottom: 10px; }
-        h1 { font-size: 18px; color: #ff9900; text-align: center; margin: 10px 0 20px 0; text-transform: uppercase; }
-        
-        .tv-container { width: 100%; max-width: 600px; background: #4a2f1b; border-radius: 20px; border: 6px solid #2e1a0b; padding: 10px; box-shadow: 0 10px 30px #000; }
-        .tv-screen { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; border: 3px solid #1a1a1a; }
-        #player { width: 100%; height: 100%; }
-        
+        h1 { font-size: 16px; color: #ff9900; text-align: center; margin: 10px 0; text-transform: uppercase; }
+        .tv-container { width: 100%; max-width: 600px; background: #4a2f1b; border-radius: 20px; border: 6px solid #2e1a0b; padding: 10px; box-sizing: border-box; }
+        .tv-screen { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; border: 3px solid #1a1a1a; position: relative; }
+        #player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .tv-controls { display: flex; justify-content: space-around; padding: 10px; background: #331d0e; border-radius: 10px; margin-top: 10px; }
-        .control-btn { background: #a67c52; border: 1px solid #5e412c; color: #fff; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
-
-        /* БЛОК ДОНАТІВ */
-        .donation-section { width: 100%; max-width: 500px; margin-top: 25px; text-align: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; }
-        h2 { font-size: 16px; margin-bottom: 15px; color: #ccc; }
-
-        .donate-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        
-        .btn-bank { text-decoration: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; flex-grow: 1; text-align: center; }
-        .mono { background: #000; border: 1px solid #333; color: #ff3b30; } /* Моно */
-        .privat { background: #76b82a; } /* Приват */
-        .idea { background: #ff0000; } /* Ідея */
-        
-        .ton-btn { background: linear-gradient(45deg, #0088cc, #00aaff); color: white; border: none; padding: 12px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }
-
-        #ton-connect-button { display: flex; justify-content: center; margin-bottom: 10px; }
-        .footer { color: #444; font-size: 11px; margin-top: 30px; text-align: center; padding-bottom: 20px; }
+        .control-btn { background: #a67c52; border: 1px solid #5e412c; color: #fff; padding: 10px; border-radius: 5px; cursor: pointer; flex: 1; margin: 0 5px; }
+        .donation-section { width: 100%; max-width: 500px; margin-top: 20px; text-align: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; box-sizing: border-box; }
+        .donate-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
+        .btn-bank { text-decoration: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; color: white; flex: 1; text-align: center; }
+        .mono { background: #000; border: 1px solid #444; color: #ff3b30; }
+        .privat { background: #76b82a; }
+        .idea { background: #ff0000; }
+        #ton-connect-button { display: flex; justify-content: center; margin: 10px 0; }
+        .ton-btn { background: linear-gradient(45deg, #0088cc, #00aaff); color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; }
     </style>
 </head>
 <body>
 
-    <img src="1775239832172.png" alt="Логотип" class="top-banner">
+    <img src="1775239832172.png" class="top-banner">
     <h1>Анекдоти від каналу Удвох</h1>
 
     <div class="tv-container">
         <div class="tv-screen"><div id="player"></div></div>
         <div class="tv-controls">
-            <button class="control-btn" id="rewind">⏪ -10с</button>
-            <button class="control-btn" id="play-pause">⏸️</button>
-            <button class="control-btn" id="forward">+10с ⏩</button>
+            <button class="control-btn" onclick="seek(-10)">⏪ -10с</button>
+            <button class="control-btn" id="pp-btn" onclick="togglePlay()">⏸️</button>
+            <button class="control-btn" onclick="seek(10)">+10с ⏩</button>
         </div>
     </div>
 
     <div class="donation-section">
-        <h2>Підтримати канал ☕️</h2>
-        
         <div class="donate-row">
-            <a href="https://send.monobank.ua/jar/ALGbQ8CaYU" target="_blank" class="btn-bank mono">Монобанк 🐈‍⬛</a>
-            <a href="https://www.privat24.ua/send/i0qz3" target="_blank" class="btn-bank privat">Приват24 🏦</a>
-            <a href="https://pay.obank.com.ua/payment?type=skrynka&uuid=4B45E725-F5D1-4BF6-9CDD-2E81C98074C7" target="_blank" class="btn-bank idea">O-Bank ❤️</a>
+            <a href="https://send.monobank.ua/jar/ALGbQ8CaYU" target="_blank" class="btn-bank mono">Монобанк</a>
+            <a href="https://www.privat24.ua/send/i0qz3" target="_blank" class="btn-bank privat">Приват24</a>
+            <a href="https://pay.obank.com.ua/payment?type=skrynka&uuid=4B45E725-F5D1-4BF6-9CDD-2E81C98074C7" target="_blank" class="btn-bank idea">O-Bank</a>
         </div>
 
-        <div style="border-top: 1px solid #333; margin: 15px 0; padding-top: 15px;">
-            <div id="ton-connect-button"></div>
-            <button class="ton-btn" onclick="sendTransaction()">Підтримати через TON (0.1) 💎</button>
-        </div>
+        <div id="ton-connect-button"></div>
+        <button class="ton-btn" id="main-ton-btn">Підтримати через TON 💎</button>
     </div>
 
-    <div class="footer">© 2026 Канал "Удвох"<br>Дякуємо за ваш сміх та підтримку!</div>
-
     <script>
-        // TON Connect
         const tonConnectUI = new TONConnectUI.TonConnectUI({
             manifestUrl: 'https://leslav2025.github.io/Anekdoty/tonconnect-manifest.json',
             buttonRootId: 'ton-connect-button'
         });
 
-        async function sendTransaction() {
+        // ПРАВИЛЬНА ЛОГІКА КНОПКИ
+        document.getElementById('main-ton-btn').onclick = async () => {
             if (!tonConnectUI.connected) {
-                alert("Спочатку підключіть гаманець!");
-                return;
+                // Якщо не підключено — відкриваємо вибір гаманця
+                await tonConnectUI.openModal();
+            } else {
+                // Якщо підключено — відправляємо 0.1 TON
+                const transaction = {
+                    validUntil: Math.floor(Date.now() / 1000) + 300,
+                    messages: [{
+                        address: "UQDXq1iAqu88tVRG62_k03kAXELu_1gzRBMye-VZoFRIRtWw",
+                        amount: "100000000"
+                    }]
+                };
+                try {
+                    await tonConnectUI.sendTransaction(transaction);
+                    alert("Дякуємо за підтримку!");
+                } catch (e) {
+                    alert("Транзакцію скасовано");
+                }
             }
-            const transaction = {
-                validUntil: Math.floor(Date.now() / 1000) + 300,
-                messages: [{
-                    address: "UQDXq1iAqu88tVRG62_k03kAXELu_1gzRBMye-VZoFRIRtWw",
-                    amount: "100000000"
-                }]
-            };
-            try {
-                await tonConnectUI.sendTransaction(transaction);
-                alert("Дякуємо!");
-            } catch (e) { alert("Помилка або скасовано"); }
-        }
+        };
 
-        // YouTube
+        // YOUTUBE
         var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                playerVars: { listType:'playlist', list:'PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF', autoplay:1, controls:0 },
-                events: { 'onReady': onPlayerReady }
+                playerVars: { 
+                    listType: 'playlist', 
+                    list: 'PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF',
+                    autoplay: 1,
+                    controls: 0,
+                    rel: 0,
+                    origin: encodeURIComponent(window.location.origin)
+                }
             });
         }
-        function onPlayerReady() {
-            document.getElementById('rewind').onclick = () => player.seekTo(player.getCurrentTime() - 10);
-            document.getElementById('forward').onclick = () => player.seekTo(player.getCurrentTime() + 10);
-            document.getElementById('play-pause').onclick = function() {
-                if(player.getPlayerState()==1){player.pauseVideo();this.innerText="▶️";}
-                else{player.playVideo();this.innerText="⏸️";}
-            };
+        function seek(s) { if(player) player.seekTo(player.getCurrentTime()+s); }
+        function togglePlay() {
+            if(!player) return;
+            const s = player.getPlayerState();
+            if(s==1){player.pauseVideo(); document.getElementById('pp-btn').innerText="▶️";}
+            else{player.playVideo(); document.getElementById('pp-btn').innerText="⏸️";}
         }
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
