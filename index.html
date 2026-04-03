@@ -6,132 +6,115 @@
     <title>Телевізор: Анекдоти від каналу Удвох</title>
     <style>
         body {
-            background-color: #0d0d0d; /* Дуже темний фон */
+            background-color: #0d0d0d;
             color: #ffffff;
-            font-family: 'Times New Roman', Times, serif; /* Більш класичний шрифт */
+            font-family: 'Segoe UI', Roboto, sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
+        }
+
+        /* МАЛЮНОК-ЗАСТАВКА */
+        .top-banner {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.1);
         }
 
         h1 {
-            font-size: 26px;
-            margin-bottom: 25px;
+            font-size: 22px;
+            margin: 15px 0 40px 0; /* Збільшений відступ знизу для антен */
             text-align: center;
-            color: #ff9900; /* Помаранчевий ретро-колір */
+            color: #ff9900;
             text-transform: uppercase;
         }
 
-        /* --- КОРПУС ТЕЛЕВІЗОРА --- */
         .tv-container {
             position: relative;
             width: 100%;
             max-width: 800px;
-            background: #4a2f1b; /* Колір дерева */
+            background: #4a2f1b;
             border-radius: 20px;
-            border: 10px solid #2e1a0b; /* Темніша рамка */
+            border: 8px solid #2e1a0b;
             box-shadow: 0 10px 25px rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px;
-            margin-bottom: 30px;
+            padding: 8px;
+            margin-bottom: 20px;
         }
 
-        /* Антени */
         .tv-antenna {
             position: absolute;
-            top: -45px;
-            width: 80px;
-            height: 50px;
-            border-top: 5px solid #777;
-            border-radius: 50px;
+            top: -35px;
+            width: 70px;
+            height: 40px;
+            border-top: 4px solid #555;
+            border-radius: 40px;
         }
-        .tv-antenna.left { left: 80px; transform: rotate(-15deg); }
-        .tv-antenna.right { right: 80px; transform: rotate(15deg); }
+        .tv-antenna.left { left: 60px; transform: rotate(-20deg); }
+        .tv-antenna.right { right: 60px; transform: rotate(20deg); }
 
-        /* --- ЕКРАН ТЕЛЕВІЗОРА --- */
         .tv-screen {
             position: relative;
             width: 100%;
-            max-width: 760px;
-            aspect-ratio: 16/9; /* Співвідношення сторін екрана */
+            aspect-ratio: 16/9;
             background: #000;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            border: 5px solid #1a1a1a; /* Чорна рамка */
-            margin-bottom: 10px;
+            border: 4px solid #1a1a1a;
+            margin-bottom: 8px;
         }
         
-        /* Плеєр YouTube, який заповнить екран */
         #player {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
         }
 
-        /* --- ПАНЕЛЬ КЕРУВАННЯ --- */
         .tv-controls {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
-            width: 100%;
+            width: 95%;
             background: #331d0e;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             border: 2px solid #2e1a0b;
+            margin-bottom: 5px;
         }
 
-        /* Кнопки */
         .control-btn {
-            background-color: #a67c52; /* Світліше дерево/пластик */
+            background-color: #a67c52;
             border: 2px solid #5e412c;
             color: #ffffff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 5px;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
-            text-shadow: 1px 1px 2px #000;
         }
-        .control-btn:hover { background-color: #bf9b7a; transform: scale(1.05); }
-        .control-btn:active { background-color: #8c6a46; transform: scale(0.95); }
 
-        /* --- СЛАЙДЕР ГУЧНОСТІ (РИЧАЖОК) --- */
         .volume-control {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #ffffff;
-            font-size: 12px;
+            font-size: 11px;
         }
         
-        /* Стиль повзунка */
         input[type="range"] {
-            -webkit-appearance: none;
-            width: 120px;
-            height: 10px;
-            background: #5e412c;
-            border-radius: 5px;
-            outline: none;
+            width: 90px;
             cursor: pointer;
-            margin-top: 5px;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #a67c52;
-            border-radius: 50%;
-            border: 2px solid #2e1a0b;
         }
 
-        .footer { color: #555; font-size: 14px; }
+        .footer { color: #444; font-size: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
+
+    <img src="1775239832172.png" alt="Логотип" class="top-banner">
 
     <h1>Анекдоти від каналу Удвох</h1>
 
@@ -144,11 +127,9 @@
         </div>
 
         <div class="tv-controls">
-            <button class="control-btn" id="rewind-btn" title="Назад 10 сек">⏪ -10с</button>
-            
-            <button class="control-btn" id="play-pause-btn" title="Пауза">⏸️</button>
-            
-            <button class="control-btn" id="forward-btn" title="Вперед 10 сек">⏩ +10с</button>
+            <button class="control-btn" id="rewind-btn">⏪ -10с</button>
+            <button class="control-btn" id="play-pause-btn">⏸️</button>
+            <button class="control-btn" id="forward-btn">+10с ⏩</button>
 
             <div class="volume-control">
                 <span>🔊 ЗВУК</span>
@@ -157,79 +138,36 @@
         </div>
     </div>
 
-    <div class="footer">
-        © 2026 Канал "Удвох" | Дивіться анекдоти в ретро-стилі
-    </div>
+    <div class="footer">© 2026 Канал "Удвох"</div>
 
     <script>
-        var player; // Змінна для плеєра
-
-        // 1. Ця функція викликається автоматично, коли API завантажиться
+        var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                // height: '100%',
-                // width: '100%',
-                // ID вашого плейлиста: PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF
                 playerVars: {
                     listType: 'playlist',
                     list: 'PLLM-qfBiUqa33GDk4pwgm4L00lRLsZTfF',
-                    autoplay: 1, // Автозапуск (може не працювати на мобільних без натискання)
-                    controls: 0, // Приховуємо стандартні кнопки YouTube
-                    rel: 0,
-                    showinfo: 0,
-                    fs: 1 // Дозволити повний екран
+                    autoplay: 1,
+                    controls: 0,
+                    rel: 0
                 },
-                events: {
-                    'onReady': onPlayerReady
-                    // 'onStateChange': onPlayerStateChange
-                }
+                events: { 'onReady': onPlayerReady }
             });
         }
 
-        // 2. Коли плеєр готовий
         function onPlayerReady(event) {
-            // Встановити початкову гучність (50%)
-            player.setVolume(50);
-
-            // Підключити кнопки та повзунок
-            
-            // Назад 10 сек
-            document.getElementById('rewind-btn').addEventListener('click', function() {
-                var currentTime = player.getCurrentTime();
-                player.seekTo(currentTime - 10, true);
-            });
-
-            // Вперед 10 сек
-            document.getElementById('forward-btn').addEventListener('click', function() {
-                var currentTime = player.getCurrentTime();
-                player.seekTo(currentTime + 10, true);
-            });
-
-            // Пауза / Плей
-            var playPauseBtn = document.getElementById('play-pause-btn');
-            playPauseBtn.addEventListener('click', function() {
-                var state = player.getPlayerState();
-                if (state == YT.PlayerState.PLAYING) {
-                    player.pauseVideo();
-                    playPauseBtn.innerHTML = "▶️"; // Змінити іконку на Плей
-                } else {
-                    player.playVideo();
-                    playPauseBtn.innerHTML = "⏸️"; // Змінити іконку на Паузу
-                }
-            });
-
-            // Гучність (повзунок)
-            document.getElementById('volume-range').addEventListener('input', function() {
-                player.setVolume(this.volume);
-            });
+            document.getElementById('rewind-btn').onclick = () => player.seekTo(player.getCurrentTime() - 10);
+            document.getElementById('forward-btn').onclick = () => player.seekTo(player.getCurrentTime() + 10);
+            document.getElementById('play-pause-btn').onclick = function() {
+                if (player.getPlayerState() == 1) { player.pauseVideo(); this.innerText = "▶️"; }
+                else { player.playVideo(); this.innerText = "⏸️"; }
+            };
+            document.getElementById('volume-range').oninput = function() { player.setVolume(this.value); };
         }
 
-        // 3. Підключити саме API (завантажити скрипт)
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        document.body.appendChild(tag);
     </script>
-
 </body>
 </html>
