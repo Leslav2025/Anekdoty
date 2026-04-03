@@ -18,7 +18,8 @@
         .privat { background: #76b82a; }
         .idea { background: #ff0000; }
         #ton-connect-button { display: flex; justify-content: center; margin: 15px 0; }
-        .ton-btn { background: #0088cc; color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; }
+        .ton-btn { background: #0088cc; color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3); }
+        .footer { color: #444; font-size: 11px; margin-top: 20px; padding-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -42,29 +43,42 @@
         <button class="ton-btn" id="ton-send-btn">ПІДТРИМАТИ TON 💎</button>
     </div>
 
-    <script>
-        // Ініціалізація TON Connect з повною адресою маніфесту
-        const tonConnectUI = new TONConnectUI.TonConnectUI({
-            manifestUrl: 'https://leslav2025.github.io/Anekdoty/tonconnect-manifest.json',
-            buttonRootId: 'ton-connect-button'
-        });
+    <div class="footer">© 2026 Канал "Удвох"</div>
 
-        document.getElementById('ton-send-btn').onclick = async () => {
-            if (!tonConnectUI.connected) {
-                await tonConnectUI.openModal();
-            } else {
-                const transaction = {
-                    validUntil: Math.floor(Date.now() / 1000) + 300,
-                    messages: [{
-                        address: "UQDXq1iAqu88tVRG62_k03kAXELu_1gzRBMye-VZoFRIRtWw",
-                        amount: "100000000"
-                    }]
-                };
+    <script>
+        // Чекаємо завантаження всього сайту
+        window.addEventListener('load', () => {
+            const tonConnectUI = new TONConnectUI.TonConnectUI({
+                manifestUrl: 'https://leslav2025.github.io/Anekdoty/tonconnect-manifest.json',
+                buttonRootId: 'ton-connect-button'
+            });
+
+            // Налаштовуємо кнопку
+            const btn = document.getElementById('ton-send-btn');
+            btn.onclick = async () => {
                 try {
-                    await tonConnectUI.sendTransaction(transaction);
-                } catch (e) { alert("Скасовано"); }
-            }
-        };
+                    if (!tonConnectUI.connected) {
+                        // Примусово відкриваємо меню гаманців
+                        await tonConnectUI.openModal();
+                    } else {
+                        // Відправляємо 0.1 TON
+                        const transaction = {
+                            validUntil: Math.floor(Date.now() / 1000) + 300,
+                            messages: [{
+                                address: "UQDXq1iAqu88tVRG62_k03kAXELu_1gzRBMye-VZoFRIRtWw",
+                                amount: "100000000"
+                            }]
+                        };
+                        await tonConnectUI.sendTransaction(transaction);
+                        alert("Дякуємо!");
+                    }
+                } catch (e) {
+                    console.error("Error:", e);
+                    // Якщо модалка не відкрилася через UI, пробуємо ще раз
+                    tonConnectUI.modal.open();
+                }
+            };
+        });
     </script>
 </body>
 </html>
